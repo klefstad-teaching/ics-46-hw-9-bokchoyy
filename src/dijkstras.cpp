@@ -7,6 +7,13 @@ struct NodeComparator {
 };
 
 vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& previous) {
+    if (G.numVertices <= 0) {
+        return vector<int>();
+    }
+    if (source < 0 || source >= G.numVertices) {
+        return vector<int>(G.numVertices, INF);
+    }
+    
     int n = G.numVertices;
     
     vector<int> distances(n, INF);
@@ -18,25 +25,33 @@ vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& prev
     priority_queue<pair<int, int>, vector<pair<int, int>>, NodeComparator> pq;
     pq.push(make_pair(source, 0));
     
-    while (!pq.empty()) {
+    const int MAX_ITERATIONS = 1000000;
+    int iterations = 0;
+    
+    while (!pq.empty() && iterations < MAX_ITERATIONS) {
+        iterations++;
         int u = pq.top().first;
         pq.pop();
-        
         if (visited[u]) {
             continue;
         }
-        
         visited[u] = true;
         
         for (const Edge& edge : G[u]) {
+            if (edge.dst < 0 || edge.dst >= n) {
+                continue;
+            }
             int v = edge.dst;
             int weight = edge.weight;
             
-            if (!visited[v] && distances[u] != INF && 
+            if (weight < 0) {
+                continue;
+            }
+            if (distances[u] != INF && 
+                distances[u] + weight >= 0 &&  // Check for overflow
                 distances[u] + weight < distances[v]) {
                 distances[v] = distances[u] + weight;
                 previous[v] = u;
-                
                 pq.push(make_pair(v, distances[v]));
             }
         }
@@ -44,26 +59,22 @@ vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& prev
     
     return distances;
 }
-
 vector<int> extract_shortest_path(const vector<int>& distances, const vector<int>& previous, int destination) {
     vector<int> path;
     
     if (distances[destination] == INF) {
-        return path; 
+        return path; // Return empty path if unreachable
     }
-    
     for (int v = destination; v != -1; v = previous[v]) {
         path.push_back(v);
     }
-    
     reverse(path.begin(), path.end());
     
     return path;
 }
-
 void print_path(const vector<int>& path, int total) {
     if (path.empty()) {
-        cout << "No path exists" << endl;
+        cout << endl << "Total cost is " << total << endl;
         return;
     }
     
@@ -73,7 +84,7 @@ void print_path(const vector<int>& path, int total) {
             cout << " ";
         }
     }
-    cout << endl;
+    cout << " " << endl;
     
     cout << "Total cost is " << total << endl;
 }
