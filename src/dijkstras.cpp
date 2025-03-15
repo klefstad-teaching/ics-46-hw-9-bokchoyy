@@ -48,7 +48,7 @@ vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& prev
                 continue;
             }
             if (distances[u] != INF && 
-                distances[u] + weight >= 0 &&  // Check for overflow
+                distances[u] + weight >= 0 &&  
                 distances[u] + weight < distances[v]) {
                 distances[v] = distances[u] + weight;
                 previous[v] = u;
@@ -63,7 +63,7 @@ vector<int> extract_shortest_path(const vector<int>& distances, const vector<int
     vector<int> path;
     
     if (distances[destination] == INF) {
-        return path; // Return empty path if unreachable
+        return path; 
     }
     for (int v = destination; v != -1; v = previous[v]) {
         path.push_back(v);
