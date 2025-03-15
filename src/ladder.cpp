@@ -39,7 +39,32 @@ bool edit_distance_within(const std::string& str1, const std::string& str2, int 
     return false;
 }
 bool is_adjacent(const string& word1, const string& word2) {
-    return edit_distance_within(word1, word2, 1);
+    if (word1.length() == word2.length()) {
+        int diff = 0;
+        for (size_t i = 0; i < word1.length(); i++) {
+            if (word1[i] != word2[i]) {
+                diff++;
+                if (diff > 1) return false;
+            }
+        }
+        return diff == 1;
+    } 
+    else if (word1.length() == word2.length() + 1) {
+        for (size_t i = 0; i <= word1.length(); i++) {
+            string temp = word1;
+            temp.erase(i, 1);
+            if (temp == word2) return true;
+        }
+    } 
+    else if (word1.length() + 1 == word2.length()) {
+        for (size_t i = 0; i <= word2.length(); i++) {
+            string temp = word2;
+            temp.erase(i, 1);
+            if (temp == word1) return true;
+        }
+    }
+    
+    return false;
 }
 vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list) {
     if (word_list.empty()) {
@@ -54,25 +79,22 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
         return result;
     }
     queue<vector<string>> ladder_queue;
-
     vector<string> initial_ladder;
+
     initial_ladder.push_back(begin_word);
     ladder_queue.push(initial_ladder);
 
     set<string> visited;
     visited.insert(begin_word);
-
-    const size_t MAX_ITERATIONS = 100000;
+    
+    const size_t MAX_ITERATIONS = 25000; 
     size_t iterations = 0;
 
     while (!ladder_queue.empty() && iterations < MAX_ITERATIONS) {
         iterations++;
-
         vector<string> current_ladder = ladder_queue.front();
         ladder_queue.pop();
-
         string last_word = current_ladder.back();
-
         for (const string& word : word_list) {
             if (visited.find(word) != visited.end()) {
                 continue;
@@ -81,6 +103,7 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
                 vector<string> new_ladder = current_ladder;
                 new_ladder.push_back(word);
                 visited.insert(word);
+
                 if (word == end_word) {
                     return new_ladder;
                 }
@@ -133,25 +156,15 @@ void print_word_ladder(const vector<string>& ladder) {
 }
 void verify_word_ladder() {
     set<string> word_list;
-    load_words(word_list, "words.txt");
+    string filename = "words.txt";
+    load_words(word_list, filename);
     
     #define my_assert(e) {cout << #e << ((e) ? " passed": " failed") << endl;}
     
-    vector<string> ladder1 = generate_word_ladder("cat", "dog", word_list);
-    my_assert(ladder1.size() == 4);
-    
-    vector<string> ladder2 = generate_word_ladder("marty", "curls", word_list);
-    my_assert(ladder2.size() == 6);
-    
-    vector<string> ladder3 = generate_word_ladder("code", "data", word_list);
-    my_assert(ladder3.size() == 6);
-    
-    vector<string> ladder4 = generate_word_ladder("work", "play", word_list);
-    my_assert(ladder4.size() == 6);
-    
-    vector<string> ladder5 = generate_word_ladder("sleep", "awake", word_list);
-    my_assert(ladder5.size() == 8);
-    
-    vector<string> ladder6 = generate_word_ladder("car", "cheat", word_list);
-    my_assert(ladder6.size() == 4);
+    my_assert(generate_word_ladder("cat", "dog", word_list).size() == 4);
+    my_assert(generate_word_ladder("marty", "curls", word_list).size() == 6);
+    my_assert(generate_word_ladder("code", "data", word_list).size() == 6);
+    my_assert(generate_word_ladder("work", "play", word_list).size() == 6);
+    my_assert(generate_word_ladder("sleep", "awake", word_list).size() == 8);
+    my_assert(generate_word_ladder("car", "cheat", word_list).size() == 4);
 }

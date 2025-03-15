@@ -4,7 +4,7 @@ int main() {
     try {
         set<string> word_list;
         load_words(word_list, "words.txt");
-        
+
         if (word_list.empty()) {
             cerr << "Error: Dictionary is empty or failed to load." << endl;
             return 1;
@@ -23,7 +23,7 @@ int main() {
             return 1;
         }
         transform(end_word.begin(), end_word.end(), end_word.begin(), ::tolower);
-        
+
         if (start_word.empty() || end_word.empty()) {
             error(start_word, end_word, "Start or end word is empty.");
             return 1;
@@ -37,7 +37,7 @@ int main() {
             return 1;
         }
         vector<string> ladder = generate_word_ladder(start_word, end_word, word_list);
-        
+
         if (ladder.empty()) {
             cout << "No word ladder found." << endl;
         } else {
