@@ -62,15 +62,18 @@ vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& prev
 
 vector<int> extract_shortest_path(const vector<int>& distances, const vector<int>& previous, int destination) {
     vector<int> path;
-    if (previous.empty() || distances.empty() || destination < 0 || 
-        destination >= (int)previous.size() || distances[destination] == INF) {
+    
+    // Check for valid input
+    if (previous.empty() || destination < 0 || 
+        destination >= (int)previous.size() || 
+        distances[destination] == INF) {
         return path;
     }
     set<int> visited;
-    
+
     for (int v = destination; v != -1; v = previous[v]) {
         if (visited.find(v) != visited.end()) {
-            break;  
+            break;
         }
         
         visited.insert(v);

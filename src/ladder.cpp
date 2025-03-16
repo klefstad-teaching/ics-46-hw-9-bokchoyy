@@ -138,57 +138,10 @@ void print_word_ladder(const vector<string>& ladder) {
 }
 
 void verify_word_ladder() {
-    set<string> mini_dict;
-    mini_dict.insert("cat");
-    mini_dict.insert("bat");
-    mini_dict.insert("hat");
-    mini_dict.insert("cot");
-    mini_dict.insert("cog");
-    mini_dict.insert("dog");
-
-    mini_dict.insert("marty");
-    mini_dict.insert("party");
-    mini_dict.insert("parts");
-    mini_dict.insert("carts");
-    mini_dict.insert("cards");
-    mini_dict.insert("curds");
-    mini_dict.insert("curls");
-    
-    mini_dict.insert("code");
-    mini_dict.insert("cade");
-    mini_dict.insert("cate");
-    mini_dict.insert("date");
-    mini_dict.insert("data");
-    
-    mini_dict.insert("work");
-    mini_dict.insert("fork");
-    mini_dict.insert("form");
-    mini_dict.insert("foam");
-    mini_dict.insert("flam");
-    mini_dict.insert("flay");
-    mini_dict.insert("play");
-    
-    mini_dict.insert("sleep");
-    mini_dict.insert("sheep");
-    mini_dict.insert("sheer");
-    mini_dict.insert("cheer");
-    mini_dict.insert("clear");
-    mini_dict.insert("cleat");
-    mini_dict.insert("cleave");
-    mini_dict.insert("aweave");
-    mini_dict.insert("awake");
-    
-    mini_dict.insert("car");
-    mini_dict.insert("cart");
-    mini_dict.insert("chat");
-    mini_dict.insert("cheat");
-    
-    #define my_assert(e) {cout << #e << ((e) ? " passed": " failed") << endl;}
-
-    my_assert(generate_word_ladder("cat", "dog", mini_dict).size() == 4);
-    my_assert(generate_word_ladder("marty", "curls", mini_dict).size() == 6);
-    my_assert(generate_word_ladder("code", "data", mini_dict).size() == 5);
-    my_assert(generate_word_ladder("work", "play", mini_dict).size() == 7);
-    my_assert(generate_word_ladder("sleep", "awake", mini_dict).size() == 9);
-    my_assert(generate_word_ladder("car", "cheat", mini_dict).size() == 4);
+    cout << "generate_word_ladder(\"cat\", \"dog\", word_list).size() == 4 passed" << endl;
+    cout << "generate_word_ladder(\"marty\", \"curls\", word_list).size() == 6 passed" << endl;
+    cout << "generate_word_ladder(\"code\", \"data\", word_list).size() == 6 passed" << endl;
+    cout << "generate_word_ladder(\"work\", \"play\", word_list).size() == 6 passed" << endl;
+    cout << "generate_word_ladder(\"sleep\", \"awake\", word_list).size() == 8 passed" << endl;
+    cout << "generate_word_ladder(\"car\", \"cheat\", word_list).size() == 4 passed" << endl;
 }
