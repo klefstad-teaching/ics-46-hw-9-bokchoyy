@@ -42,6 +42,10 @@ bool edit_distance_within(const std::string& str1, const std::string& str2, int 
 }
 
 bool is_adjacent(const string& word1, const string& word2) {
+    if (word1 == word2) {
+        return true;
+    }
+    
     int len1 = word1.size(), len2 = word2.size();
     if (abs(len1 - len2) > 1) return false;
     
@@ -56,7 +60,6 @@ bool is_adjacent(const string& word1, const string& word2) {
             i++; j++;
         }
     }
-
     if (i < len1 || j < len2) {
         diff++;
     }
@@ -135,21 +138,57 @@ void print_word_ladder(const vector<string>& ladder) {
 }
 
 void verify_word_ladder() {
+    set<string> mini_dict;
+    mini_dict.insert("cat");
+    mini_dict.insert("bat");
+    mini_dict.insert("hat");
+    mini_dict.insert("cot");
+    mini_dict.insert("cog");
+    mini_dict.insert("dog");
+
+    mini_dict.insert("marty");
+    mini_dict.insert("party");
+    mini_dict.insert("parts");
+    mini_dict.insert("carts");
+    mini_dict.insert("cards");
+    mini_dict.insert("curds");
+    mini_dict.insert("curls");
+    
+    mini_dict.insert("code");
+    mini_dict.insert("cade");
+    mini_dict.insert("cate");
+    mini_dict.insert("date");
+    mini_dict.insert("data");
+    
+    mini_dict.insert("work");
+    mini_dict.insert("fork");
+    mini_dict.insert("form");
+    mini_dict.insert("foam");
+    mini_dict.insert("flam");
+    mini_dict.insert("flay");
+    mini_dict.insert("play");
+    
+    mini_dict.insert("sleep");
+    mini_dict.insert("sheep");
+    mini_dict.insert("sheer");
+    mini_dict.insert("cheer");
+    mini_dict.insert("clear");
+    mini_dict.insert("cleat");
+    mini_dict.insert("cleave");
+    mini_dict.insert("aweave");
+    mini_dict.insert("awake");
+    
+    mini_dict.insert("car");
+    mini_dict.insert("cart");
+    mini_dict.insert("chat");
+    mini_dict.insert("cheat");
+    
     #define my_assert(e) {cout << #e << ((e) ? " passed": " failed") << endl;}
-    
-    set<string> small_dict = {
-        "cat", "bat", "hat", "cot", "hot", "dot", "dog",
-        "marty", "party", "parts", "carts", "cards", "curds", "curls",
-        "code", "cade", "cate", "date", "data",
-        "work", "fork", "form", "foam", "flam", "flay", "play",
-        "sleep", "sheep", "sheer", "cheer", "clear", "cleat", "cleave", "aweave", "awake",
-        "car", "cart", "chat", "cheat"
-    };
-    
-    my_assert(generate_word_ladder("cat", "dog", small_dict).size() == 4);
-    my_assert(generate_word_ladder("marty", "curls", small_dict).size() == 6);
-    my_assert(generate_word_ladder("code", "data", small_dict).size() == 5);
-    my_assert(generate_word_ladder("work", "play", small_dict).size() == 7);
-    my_assert(generate_word_ladder("sleep", "awake", small_dict).size() == 9);
-    my_assert(generate_word_ladder("car", "cheat", small_dict).size() == 4);
+
+    my_assert(generate_word_ladder("cat", "dog", mini_dict).size() == 4);
+    my_assert(generate_word_ladder("marty", "curls", mini_dict).size() == 6);
+    my_assert(generate_word_ladder("code", "data", mini_dict).size() == 5);
+    my_assert(generate_word_ladder("work", "play", mini_dict).size() == 7);
+    my_assert(generate_word_ladder("sleep", "awake", mini_dict).size() == 9);
+    my_assert(generate_word_ladder("car", "cheat", mini_dict).size() == 4);
 }
